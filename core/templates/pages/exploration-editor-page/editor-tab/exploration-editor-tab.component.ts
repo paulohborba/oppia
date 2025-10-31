@@ -78,6 +78,10 @@ export class ExplorationEditorTabComponent implements OnInit, OnDestroy {
     'editorTabTourTutorialComplete',
   ];
 
+  private readonly _NAVBAR_HEIGHT_PX = 68;
+  private readonly _TOUR_SCROLL_MARGIN_PX = 20;
+  private readonly _TOUR_SCROLL_OFFSET = this._NAVBAR_HEIGHT_PX + this._TOUR_SCROLL_MARGIN_PX;
+
   constructor(
     private editabilityService: EditabilityService,
     private explorationNextContentIdIndexService: ExplorationNextContentIdIndexService,
@@ -175,7 +179,7 @@ export class ExplorationEditorTabComponent implements OnInit, OnDestroy {
 
             const element = document.getElementById(idToScrollTo);
             if (element) {
-              this.smoothScrollTo(element.offsetTop - 200, 1000);
+              this.smoothScrollTo(element.offsetTop - this._TOUR_SCROLL_OFFSET, 1000);
             }
 
             document.querySelector<HTMLElement>(
@@ -194,7 +198,7 @@ export class ExplorationEditorTabComponent implements OnInit, OnDestroy {
 
             const element = document.getElementById(idToScrollTo);
             if (element) {
-              this.smoothScrollTo(element.offsetTop - 200, 1000);
+              this.smoothScrollTo(element.offsetTop - this._TOUR_SCROLL_OFFSET, 1000);
             }
 
             document.querySelector<HTMLElement>(
