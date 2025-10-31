@@ -1,6 +1,10 @@
 FROM node:16.13.0-slim AS frontend
-
 WORKDIR /app/oppia
+
+# Point to Debian archive repositories for Buster (EOL)
+RUN sed -i 's/deb.debian.org/archive.debian.org/g' /etc/apt/sources.list && \
+    sed -i 's|security.debian.org|archive.debian.org|g' /etc/apt/sources.list && \
+    sed -i '/stretch-updates/d' /etc/apt/sources.list
 
 RUN apt-get update -y && apt-get install -y \
     chromium \
@@ -12,10 +16,8 @@ RUN apt-get update -y && apt-get install -y \
 # Installing packages from the package.json file.
 COPY package.json .
 COPY scripts/linters/custom_eslint_checks ./scripts/linters/custom_eslint_checks
-
 COPY yarn.lock .
 RUN npm install -g yarn@1.22.15 --force
 RUN yarn install --pure-lockfile
-
 # Clean up temporary files
 RUN rm -rf /tmp/* /var/tmp/*
